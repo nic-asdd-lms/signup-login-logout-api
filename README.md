@@ -17,7 +17,7 @@ node index.js
 ## Setup database
 
 ```sh
-cqlsh -f signup-logout-login-api/db_scripts/user.cql 
+cqlsh -f db_scripts/user.cql 
 ```
 
 
