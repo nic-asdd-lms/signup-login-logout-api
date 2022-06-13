@@ -3,21 +3,26 @@ API for basic signup, login and logout functionality using NodeJS and Cassandra
 
 ## Install
 
+- Docker
 - NodeJS
-- Cassandra
 - Postman
 
-## Build
+## Run
 
 ```sh
-npm install
-node index.js
+docker-compose -f docker-compose.yml up -d
 ```
 
 ## Setup database
 
 ```sh
-cqlsh -f db_scripts/user.cql 
+docker ps #to get name of cassandra docker container
+
+docker cp db_scripts/user.cql <cassandra_docker_container_name>:/user.cql
+
+docker exec -ti <cassandra_docker_container_name> bash
+
+cqlsh -f user.cql 
 ```
 
 
