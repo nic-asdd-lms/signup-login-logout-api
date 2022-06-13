@@ -1,13 +1,14 @@
 var ExpressCassandra = require('express-cassandra');
 const session = require('express-session');
 const { cookie } = require('express/lib/response');
+const dockerIpTools = require("docker-ip-get");
 
 const models = ExpressCassandra.createClient({
     clientOptions: {
-        contactPoints: ['127.0.0.1'],
+        contactPoints: [process.env.CASSANDRA_HOST],
         localDataCenter: 'datacenter1',
-        protocolOptions: { port: 9042 },
-        keyspace: 'user',
+        protocolOptions: { port: process.env.CASSANDRA_LOCAL_PORT },
+        keyspace: process.env.CASSANDRA_KEYSPACE,
         queryOptions: {consistency: ExpressCassandra.consistencies.one},
         socketOptions: { readTimeout: 60000 },
     },
@@ -45,8 +46,8 @@ exports.createUser = async function(req, res) {
             var newuser = new models.instance.user_accounts({
                 lastname: lastname,
                 firstname: firstname,
-            username: username,
-            password: password
+                username: username,
+                password: password
         });
     
         newuser.save(function(err){

@@ -1,0 +1,32 @@
+version: '3.8'
+services: 
+    app:
+      build:
+        context: .
+      env_file: ./.env
+      command: node index.js
+      volumes: 
+          - .:/app/
+          - /app/node_modules
+      ports:
+          - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      depends_on: 
+          - cassandra-lms
+      environment: 
+          CASSANDRA_HOST: cassandra-lms
+
+    cassandra-lms:
+      image: cassandra
+      env_file: ./.env
+      environment: 
+        CASSANDRA_HOST: cassandra-lms
+        CASSANDRA_KEYSPACE: $CASSANDRA_KEYSPACE
+      ports:
+          - $CASSANDRA_LOCAL_PORT:$CASSANDRA_DOCKER_PORT
+      volumes:
+          - cassandra:/var/lib/cassandra
+          - cassandra_config:/etc/cassandra
+
+volumes:
+  cassandra:
+  cassandra_config:
