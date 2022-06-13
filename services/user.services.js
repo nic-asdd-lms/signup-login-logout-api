@@ -1,7 +1,6 @@
 var ExpressCassandra = require('express-cassandra');
 const session = require('express-session');
 const { cookie } = require('express/lib/response');
-const dockerIpTools = require("docker-ip-get");
 
 const models = ExpressCassandra.createClient({
     clientOptions: {
